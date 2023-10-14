@@ -40,10 +40,17 @@ namespace Service
                 TotalCount = g.Sum(s => s.Count)
             });
 
-            var weeklyReport = new List<SensorDataResponseWeeklyModel>();  //TODO
-
-
-
+            var weeklyReport = data.Select(x=> new 
+            {
+                WeekStartTime = TimeZoneInfo.ConvertTimeToUtc(x.DateFrom).Date.AddDays(-(int)TimeZoneInfo.ConvertTimeToUtc(x.DateFrom).DayOfWeek),
+                Count = x.Count,
+            })
+                .GroupBy(c => c.WeekStartTime)
+                .Select(g => new SensorDataResponseWeeklyModel
+            {
+                WeekStartTime = g.Key,
+                TotalCount = g.Sum(s => s.Count)
+            });
 
             return new SensorDataReportResponseModel()
             {

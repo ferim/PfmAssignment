@@ -18,7 +18,7 @@ namespace SensorDataReport.Controllers
         [HttpGet]
         public SensorDataReportResponseModel Get() 
         {
-            return _sensorDataReportService.GetSensorDataReport("C:\\git\\PfmAssignment\\SensorDataReport\\appsettings.json");
+            return _sensorDataReportService.GetSensorDataReport("C:\\git\\PfmAssignment\\SensorDataReport\\counts.csv");
         }
     }
 

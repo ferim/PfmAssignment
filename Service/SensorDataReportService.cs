@@ -1,6 +1,7 @@
 ﻿using Contract;
 using Service.Contract;
 using Shared.ResponseModels.SensorDataReportResponse;
+using System.Globalization;
 
 namespace Service
 {
@@ -16,35 +17,44 @@ namespace Service
             var data = _sensorDataReportRepository.GetSensorData(fullPath);
 
             var hourlyReport = data.GroupBy(c =>
-                new
+                new 
                 {
                     Year = c.DateFrom.Year,
                     Month = c.DateFrom.Month,
                     Day = c.DateFrom.Day,
                     Hour = c.DateFrom.Hour,
-                }).Select(x => new
+                }).Select(x => new SensorDataResponseHourlyModel
                 {
-                    Time = new DateTime(x.Key.Year, x.Key.Month, x.Key.Day, x.Key.Hour, 0, 0),
+                    HourlyTime = new DateTime(x.Key.Year, x.Key.Month, x.Key.Day, x.Key.Hour, 0, 0),
                     TotalCount = x.Sum(v => v.Count)
                 });
 
             var dailyReport = data.GroupBy(c =>
-                new
+                new 
                 {
                     Year = c.DateFrom.Year,
                     Month = c.DateFrom.Month,
                     Day = c.DateFrom.Day
-                }).Select(x => new
+                }).Select(x => new SensorDataResponseDailyModel
                 {
-                    Time = new DateTime(x.Key.Year, x.Key.Month, x.Key.Day, 0, 0, 0),
+                    DailyTime = new DateTime(x.Key.Year, x.Key.Month, x.Key.Day, 0, 0, 0),
                     TotalCount = x.Sum(v => v.Count)
                 });
 
-            var weeklyReport = "";//Todo
+            var weeklyReport = data.GroupBy(c =>
+            CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(c.DateFrom, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
+            ).Select(x => new SensorDataResponseWeeklyModel
+            {
+                    WeekNumber = x.Key,
+                    TotalCount = x.Sum(v => v.Count)
+                });
 
-            //nothing interesting :(
-
-            return new SensorDataReportResponseModel();
+            return new SensorDataReportResponseModel()
+            {
+                HourlyReport = hourlyReport,
+                DailyReport = dailyReport,
+                WeeklyReport = weeklyReport
+            };
         }
        
     }

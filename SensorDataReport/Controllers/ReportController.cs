@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contract;
 using Shared.ResponseModels.SensorDataReportResponse;
 
@@ -14,20 +13,23 @@ namespace SensorDataReport.Controllers
         {
             _sensorDataReportService = sensorDataReportService;
         }
+
         [Route("SensorDataReport")]
         [HttpGet]
-        public SensorDataReportResponseModel Get() 
+        public SensorDataReportResponseModel Get(string csvFullPath) 
         {
-            return _sensorDataReportService.GetSensorDataReport("C:\\git\\PfmAssignment\\SensorDataReport\\counts.csv");
+            return _sensorDataReportService.GetSensorDataReport(csvFullPath);
         }
+
         [Route("SensorDataReportV2")]
         [HttpGet]
-        public SensorDataResponseOverviewModel GetV2()
+        public SensorDataResponseOverviewModel GetV2(string csvFullPath)
         {
-            return _sensorDataReportService.GetSensorDataReportV2("C:\\git\\PfmAssignment\\SensorDataReport\\counts.csv");
-            
+            return _sensorDataReportService.GetSensorDataReportV2(csvFullPath); 
+
+
         }
-        //
+      
     }
 
 }

@@ -26,7 +26,7 @@ namespace Service
                 .GroupBy(c => c.UniversalTime.Date.AddHours(c.UniversalTime.Hour))
                 .Select(g => new SensorDataResponseHourlyModel
             {
-                HourlyTime = TimeZoneInfo.ConvertTimeFromUtc(g.Key, TimeZoneInfo.Local),
+                HourlyTime = g.Key,
                 TotalCount = g.Sum(s => s.Count)
             });
 

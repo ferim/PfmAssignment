@@ -20,6 +20,14 @@ namespace SensorDataReport.Controllers
         {
             return _sensorDataReportService.GetSensorDataReport("C:\\git\\PfmAssignment\\SensorDataReport\\counts.csv");
         }
+        [Route("SensorDataReportV2")]
+        [HttpGet]
+        public SensorDataResponseOverviewModel GetV2()
+        {
+            return _sensorDataReportService.GetSensorDataReportV2("C:\\git\\PfmAssignment\\SensorDataReport\\counts.csv");
+            
+        }
+        //
     }
 
 }

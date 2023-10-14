@@ -1,7 +1,7 @@
 ﻿using Contract;
 using Service.Contract;
 using Shared.ResponseModels.SensorDataReportResponse;
-using System.Globalization;
+using System.Diagnostics;
 
 namespace Service
 {
@@ -14,6 +14,8 @@ namespace Service
         }
         public SensorDataReportResponseModel GetSensorDataReport(string fullPath)
         {
+            var sw = new Stopwatch();
+            sw.Start();
             var data = _sensorDataReportRepository.GetSensorData(fullPath);
 
             var hourlyReport = data.Select(x => new
@@ -51,7 +53,9 @@ namespace Service
                 WeekStartTime = g.Key,
                 TotalCount = g.Sum(s => s.Count)
             });
-
+            sw.Stop();
+           
+          
             return new SensorDataReportResponseModel()
             {
                 HourlyReport = hourlyReport,

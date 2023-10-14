@@ -41,6 +41,9 @@ namespace Service
                 });
 
             var weeklyReport = "";//Todo
+
+            //nothing interesting :(
+
             return new SensorDataReportResponseModel();
         }
        

@@ -16,38 +16,34 @@ namespace Service
         {
             var data = _sensorDataReportRepository.GetSensorData(fullPath);
 
-            var hourlyReport = data.GroupBy(c =>
-                new 
-                {
-                    Year = c.DateFrom.Year,
-                    Month = c.DateFrom.Month,
-                    Day = c.DateFrom.Day,
-                    Hour = c.DateFrom.Hour,
-                }).Select(x => new SensorDataResponseHourlyModel
-                {
-                    HourlyTime = new DateTime(x.Key.Year, x.Key.Month, x.Key.Day, x.Key.Hour, 0, 0),
-                    TotalCount = x.Sum(v => v.Count)
-                });
-
-            var dailyReport = data.GroupBy(c =>
-                new 
-                {
-                    Year = c.DateFrom.Year,
-                    Month = c.DateFrom.Month,
-                    Day = c.DateFrom.Day
-                }).Select(x => new SensorDataResponseDailyModel
-                {
-                    DailyTime = new DateTime(x.Key.Year, x.Key.Month, x.Key.Day, 0, 0, 0),
-                    TotalCount = x.Sum(v => v.Count)
-                });
-
-            var weeklyReport = data.GroupBy(c =>
-            CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(c.DateFrom, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
-            ).Select(x => new SensorDataResponseWeeklyModel
+            var hourlyReport = data.Select(x => new
             {
-                    WeekNumber = x.Key,
-                    TotalCount = x.Sum(v => v.Count)
-                });
+                UniversalTime = x.DateFrom.ToUniversalTime(),
+                Count = x.Count,
+            })
+                .GroupBy(c => c.UniversalTime.Date.AddHours(c.UniversalTime.Hour))
+                .Select(g => new SensorDataResponseHourlyModel
+            {
+                HourlyTime = TimeZoneInfo.ConvertTimeFromUtc(g.Key, TimeZoneInfo.Local),
+                TotalCount = g.Sum(s => s.Count)
+            });
+
+            var dailyReport = data.Select(x => new
+            {
+                SelectedTime = x.DateFrom.ToUniversalTime(),
+                Count = x.Count,
+            })
+                .GroupBy(c => c.SelectedTime.Date)
+                .Select(g => new SensorDataResponseDailyModel
+            {
+                DailyTime = g.Key,
+                TotalCount = g.Sum(s => s.Count)
+            });
+
+            var weeklyReport = new List<SensorDataResponseWeeklyModel>();  //TODO
+
+
+
 
             return new SensorDataReportResponseModel()
             {

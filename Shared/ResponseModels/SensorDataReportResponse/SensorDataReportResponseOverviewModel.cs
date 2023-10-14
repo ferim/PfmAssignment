@@ -1,7 +1,6 @@
-﻿
-namespace Shared.ResponseModels.SensorDataReportResponse
+﻿namespace Shared.ResponseModels.SensorDataReportResponse
 {
-    public class SensorDataResponseOverviewModel
+    public class SensorDataReportResponseOverviewModel
     {
         public IEnumerable<Week> WeeklyReport { get; set; }
         public IEnumerable<Day> DailyReport { get; set; }

@@ -1,7 +1,7 @@
 ﻿
 namespace Shared.ResponseModels.SensorDataReportResponse
 {
-    public class SensorDataResponseBaseModel
+    public class SensorDataReportResponseBaseModel
     {
         public int TotalCount { get; set; }
     }

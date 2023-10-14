@@ -23,7 +23,7 @@ namespace SensorDataReport.Controllers
 
         [Route("SensorDataReportV2")]
         [HttpGet]
-        public SensorDataResponseOverviewModel GetV2(string csvFullPath)
+        public SensorDataReportResponseOverviewModel GetV2(string csvFullPath)
         {
             return _sensorDataReportService.GetSensorDataReportV2(csvFullPath); 
 

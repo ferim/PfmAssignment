@@ -1,7 +1,7 @@
 ﻿
 namespace Shared.ResponseModels.SensorDataReportResponse
 {
-    public class SensorDataResponseHourlyModel : SensorDataResponseBaseModel
+    public class SensorDataReportResponseHourlyModel : SensorDataReportResponseBaseModel
     {
         public DateTime HourlyTime { get; set; }
     }

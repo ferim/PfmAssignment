@@ -24,7 +24,7 @@ namespace Service
                 Count = x.Count,
             })
                 .GroupBy(c => c.UniversalTime.Date.AddHours(c.UniversalTime.Hour))
-                .Select(g => new SensorDataResponseHourlyModel
+                .Select(g => new SensorDataReportResponseHourlyModel
             {
                 HourlyTime = g.Key,
                 TotalCount = g.Sum(s => s.Count)
@@ -36,7 +36,7 @@ namespace Service
                 Count = x.Count,
             })
                 .GroupBy(c => c.SelectedTime.Date)
-                .Select(g => new SensorDataResponseDailyModel
+                .Select(g => new SensorDataReportResponseDailyModel
             {
                 DailyTime = g.Key,
                 TotalCount = g.Sum(s => s.Count)
@@ -48,7 +48,7 @@ namespace Service
                 Count = x.Count,
             })
                 .GroupBy(c => c.WeekStartTime)
-                .Select(g => new SensorDataResponseWeeklyModel
+                .Select(g => new SensorDataReportResponseWeeklyModel
             {
                 WeekStartTime = g.Key,
                 TotalCount = g.Sum(s => s.Count)
@@ -64,7 +64,7 @@ namespace Service
             };
         }
 
-        public SensorDataResponseOverviewModel GetSensorDataReportV2(string fullPath)
+        public SensorDataReportResponseOverviewModel GetSensorDataReportV2(string fullPath)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -124,7 +124,7 @@ namespace Service
             sw.Stop();
             var elml = sw.ElapsedMilliseconds;
             
-            return new SensorDataResponseOverviewModel()
+            return new SensorDataReportResponseOverviewModel()
             { 
                         HourlyReport = hourlySummaries,
                         DailyReport = dailySummaries,

@@ -1,7 +1,7 @@
 ﻿
 namespace Shared.ResponseModels.SensorDataReportResponse
 {
-    public class SensorDataResponseDailyModel : SensorDataResponseBaseModel
+    public class SensorDataReportResponseDailyModel : SensorDataReportResponseBaseModel
     {
         public DateTime DailyTime { get; set; }
     }
